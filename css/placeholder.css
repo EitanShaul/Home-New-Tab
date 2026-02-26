@@ -1,0 +1,15 @@
+/* (c) copyright 2019 Balázs Galambosi (support@homenewtab.com) */
+
+
+#bg-placeholder-img {
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: calc(50% - 32px);
+  transform: translate(-50%, -50%);
+  width: 64px;
+  z-index: -1;
+  filter: grayscale(100%);
+  opacity: .5;
+  transition: opacity .5s ease;
+}

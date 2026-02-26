@@ -1,0 +1,454 @@
+// (c) copyright 2019 Balázs Galambosi (support@homenewtab.com)
+
+// @gblazex, galambalazs@yahoo.co.uk
+
+function byId(id, base) { return (base||document).getElementById(id); }
+function bySelector(sel, base) { return (base||document).querySelector(sel); }
+function bySelectorAll(sel, base) { return (base||document).querySelectorAll(sel); }
+
+
+var kImageBorder = 5;
+var kImageVerticalMargin = 8; // one side
+
+var isFrame = (top !== self);
+
+// not an iframe
+if (!isFrame) {
+  $('body').css('background', '#222');
+  var windowHeight = window.innerHeight;
+} else {
+  var windowHeight = parent.innerHeight;
+}
+
+var kImageHeight = Math.min(window.innerHeight - 80, 160);
+var kImageWidth  = kImageHeight * 2;
+//var kImageWidth  = 16 * (kImageHeight / 10);
+
+var css = document.createElement('style');
+css.textContent = mstc(
+  '#image-slider-content div { ' +
+    'width:{{0}}px; height:{{1}}px }' + 
+  '#image-slider-content img { ' + 
+    'width:{{0}}px; height:{{1}}px }' + 
+  '#image-slider { height:{{2}}px }' + 
+  '::-webkit-scrollbar { ' +
+    'width:{{3}}px; height:{{3}}px }',
+  [kImageWidth, kImageHeight, 
+  kImageHeight + 20, kImageHeight > 100 ? 20 : 16]);
+document.body.appendChild(css);
+//if (windowHeight > 900) {
+//  $('body').css('zoom', '1.25');
+//}
+
+function loadLazyImages() {
+  function loadLazyImg(img) { img.src = img.dataset.src; }
+  var imgs = [].slice.call(document.querySelectorAll('img[data-src]'));
+  imgs.slice(0, 6).forEach(loadLazyImg);
+  setTimeout(function () {
+     imgs.slice(6).forEach(loadLazyImg);
+  }, 500);
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+  setTimeout(loadLazyImages, 100);
+});
+
+//
+// Build page
+//
+
+//01.jpg - 51.jpg
+var html = '';
+var dailyButtonWidth = 1 * (138 + 16); // 2 if bing button
+html =  '<h3 id="h3-daily" class="subtitle">Daily</h3>' + 
+        '<h3 id="h3-static" class="subtitle">Static</h3>';
+html += '<button id="home-button" class="daily-button">' + 
+        '<b>Home</b> Daily<br>' + 
+        '<span id="home-dots" class="dots"></span>' + 
+        '</button>';  
+
+var blankSrc = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+var count = 52;
+for (var i = 1; i <= count; i++) {
+  var filename = paddedNumber(i) + '.jpg';
+  html += mstc('<div class="pic"><img src="{{0}}" data-src="/img/backgrounds/thumbs/{{1}}"></div>', 
+               [blankSrc, filename]);
+}
+
+var sliderWidth = count * (kImageWidth + 2*kImageVerticalMargin 
+                                       + 2*kImageBorder) + dailyButtonWidth;
+byId("image-slider-content").innerHTML = html;
+byId("image-slider-content").style.width = sliderWidth + 'px';
+
+byId("image-slider-content").addEventListener("click", function (e) {
+  var el = e.target.closest('.pic');
+  if (!el) return;
+  bySelector("#image-slider-content .selected")?.classList.remove('selected');
+  el.classList.add('selected');
+
+  var image = el.querySelector('img').src.replace('thumbs/', '');
+  chrome.runtime.sendMessage({name: 'setBackgroundImageService', type: 'manual'});
+  chrome.runtime.sendMessage({name: 'setBackgroundStyle', content: 'stretch'});
+  chrome.runtime.sendMessage({name: 'setBackgroundImage', content: image});
+});
+
+var content = $("#image-slider-content")[0];
+var wrapper = $("#image-slider")[0];
+
+$("#home-button").click(function () {
+  $("#image-slider-content .selected").removeClass('selected');
+  $('#home-button')[0].classList.add('selected');
+  switchToNextHomeIdx();
+  chrome.runtime.sendMessage({
+    name: 'setBackgroundImageService', type: 'auto', source: 'home'});
+});
+
+//
+// General scrolling
+//
+
+(function (el) { 
+
+// caused reflow
+//var absScrollMax = 0//content.scrollWidth - wrapper.offsetWidth;
+
+function getAbsScrollMax() {
+  var absScrollMax;
+  getAbsScrollMax = function () {
+    return absScrollMax;
+  }
+  absScrollMax = content.scrollWidth - wrapper.offsetWidth;
+  return absScrollMax;
+}
+
+// internal relative scrolling (so the scrollbar still works)
+var relAccumulatedScroll = 0; 
+
+// delta:  one time thing
+// target: accumulated deltas
+var lastScroll = Date.now();
+var options = {};
+options.accelerationDelta = 50;
+options.accelerationMax   = 5;
+var EASING = 0.09;
+var easingDirty = false;
+
+
+//
+// Wheel scrolling
+//
+
+window.addEventListener('wheel', onWheel, { passive: false });
+
+function onWheel(e) {
+
+  // high precision scrolling Y -> turn it into X scrolling
+  if (isHighPrecisionWheel(e.wheelDeltaY) && e.wheelDeltaX == 0) {
+    el.scrollLeft -= e.wheelDeltaY;
+    return;
+  }
+
+  // wheelDelta is inverted
+  var delta = -e.wheelDelta || -e.wheelDeltaX || -e.wheelDeltaY;
+  if (isHighPrecisionWheel(delta)) {
+    return true; // leave high quality scrolling devices alone
+  } 
+
+  //disableHover();
+
+  delta = delta > 0 ? 240 : -240;
+  e.preventDefault();
+
+  // acceleration
+  var now = Date.now();
+  var elapsed = now - lastScroll;
+  if (elapsed < options.accelerationDelta) {
+      var factor = (1 + (50 / elapsed)) / 2;
+      if (factor > 1) {
+          factor = Math.min(factor, options.accelerationMax);
+          delta *= factor;
+      }
+  }
+  lastScroll = Date.now();
+
+
+  if (relAccumulatedScroll > 0 && delta < 0 ||
+      relAccumulatedScroll < 0 && delta > 0) {
+    //relAccumulatedScroll = 0;
+  }
+
+  easingDirty = true;
+  //if (lastEasing == EASING) lastEasing = EASING / 2;
+  var lastDeltaEstimate = relAccumulatedScroll * lastEasing;
+  lastEasing = lastDeltaEstimate / (relAccumulatedScroll + delta);
+
+  collect.push('wheel');
+
+  relAccumulatedScroll += delta;
+
+  if (!pendingFrame)
+    pendingFrame = requestAnimationFrame(onFrame);
+}
+
+// TODO: sampling later and if all samples match => not high precision
+// reason: Chrome OS (vmware only?) sends 38px scroll events
+// https://jsfiddle.net/56xz4g9o/5/
+var deltaBuffer = [];
+var deltaBufferTimer;
+
+if (window.localStorage && localStorage.SS_deltaBuffer) {
+    try { // #46 Safari throws in private browsing for localStorage 
+        deltaBuffer = localStorage.SS_deltaBuffer.split(',');
+    } catch (e) { } 
+}
+
+function isHighPrecisionWheelDelta(deltaY) {
+    if (!deltaY) return;
+    if (!deltaBuffer.length) {
+        deltaBuffer = [deltaY, deltaY, deltaY];
+    }
+    deltaY = Math.abs(deltaY);
+    deltaBuffer.push(deltaY);
+    deltaBuffer.shift();
+    clearTimeout(deltaBufferTimer);
+    deltaBufferTimer = setTimeout(function () {
+        try { // #46 Safari throws in private browsing for localStorage
+            localStorage.SS_deltaBuffer = deltaBuffer.join(',');
+        } catch (e) { }  
+    }, 1000);
+    var dpiScaledWheelDelta = deltaY > 120 && allDeltasDivisableBy(deltaY); // win64 
+    return !allDeltasDivisableBy(120) && !allDeltasDivisableBy(100) && !dpiScaledWheelDelta;
+} 
+
+function isDivisible(n, divisor) {
+    return (Math.floor(n / divisor) == n / divisor);
+}
+
+function allDeltasDivisableBy(divisor) {
+    return (isDivisible(deltaBuffer[0], divisor) &&
+            isDivisible(deltaBuffer[1], divisor) &&
+            isDivisible(deltaBuffer[2], divisor));
+}
+
+
+function isHighPrecisionWheel(d) {
+  return isHighPrecisionWheelDelta(d);
+}
+
+/*
+function isHighPrecisionWheelDelta(d) {
+  if (typeof d != 'number') d = d.wheelDelta || d.wheelDeltaX || d.wheelDeltaY;
+  d = Math.abs(d);
+  return (d != 100 && 
+          d != 120 && 
+          d != window.devicePixelRatio * 100 && 
+          d != window.devicePixelRatio * 120);
+}
+*/
+
+
+//
+// Keyboard scrolling
+//
+
+var keydownTimer;
+
+window.onkeydown = function (e) {
+  if (e.keyCode != 37 && e.keyCode != 39) return true;
+  if (keydownTimer) return true;
+  keydownTimer = setInterval(onKeydownInterval, 20);
+  onKeydownInterval();
+  function onKeydownInterval() {
+    // 37: left, 39: right
+    var delta = (e.keyCode == 39) ? 10 : -10;
+    if (relAccumulatedScroll > 0 && delta < 0 ||
+        relAccumulatedScroll < 0 && delta > 0) {
+      relAccumulatedScroll = 0;
+    }
+    relAccumulatedScroll += delta;
+    if (!pendingFrame)
+      pendingFrame = requestAnimationFrame(onFrame);
+  }
+}
+
+window.onkeyup = function (e) {
+  if (e.keyCode != 37 && e.keyCode != 39) return true;
+  clearInterval(keydownTimer);
+  keydownTimer = null;
+}
+
+
+//
+// Scrolling render
+//
+
+var pendingFrame;
+var lastEasing = 0;
+var lastFrame;
+var lastDelta;
+var frameBudget = 1000/60;
+
+function onFrame() {
+  pendingFrame = null;
+
+  lastFrame || (lastFrame = Date.now());
+  var now = Date.now();
+  var frameDelta = now - lastFrame;
+  lastFrame = now;
+
+  var absCurrentScroll = el.scrollLeft;
+
+  // bounds check (0, absScrollMax)
+  var absTargetScroll = absCurrentScroll + relAccumulatedScroll;
+  absTargetScroll = Math.max(Math.min(absTargetScroll, getAbsScrollMax()), 0);
+
+  var absReaminingScroll = absTargetScroll - absCurrentScroll;
+
+  /*if (easingDirty && !isApproachingBounds) {
+    //if (lastEasing == EASING) lastEasing = EASING / 2; // crude alt. but looks ok
+    var lastDeltaEstimate =  (relAccumulatedScroll-) * lastEasing;
+    lastEasing = lastDeltaEstimate / relAccumulatedScroll;
+    //lastEasing = lastDelta / relAccumulatedScroll;
+  }
+  easingDirty = false;
+  */
+
+  // final scroll event (tiny portion to go)
+  if (Math.abs(absReaminingScroll) < 1) { // 0.01
+    var currentDelta = absReaminingScroll; 
+  // easing phase, still going
+  } else {
+    var isApproachingBounds = (!absTargetScroll || absTargetScroll == getAbsScrollMax());
+    var currentEasing = lastEasing + (EASING/15) * (frameDelta/frameBudget);
+    currentEasing = isApproachingBounds ? EASING : Math.min(currentEasing, EASING);
+    lastEasing = currentEasing;
+    var currentDelta = absReaminingScroll * currentEasing;
+  }
+
+  // accumulated delta gets bounds checked this way as well
+  relAccumulatedScroll = absReaminingScroll - currentDelta;
+
+  // Chrome doesn't handle fractures that well,  so we keep
+  // the accumulation as FLOAT and the actual scroll as INT
+  currentDelta = Math.round(currentDelta);
+
+  if (Math.abs(currentDelta) > 0.1) {
+    pendingFrame = requestAnimationFrame(onFrame);
+  } else {
+    relAccumulatedScroll = 0;
+    //enableHover();
+  }
+
+  if (currentDelta == 0) {
+    lastEasing = 0;
+    return;
+  }
+
+  var absNewScroll = absCurrentScroll + currentDelta;
+
+  //collect.push(currentDelta);
+  lastDelta = currentDelta;
+
+  el.scrollLeft = absNewScroll;
+}
+
+var collect = [];
+
+})($("#image-slider")[0]);
+
+//
+// Home button
+//
+
+//var homeIdx = storageGetNumber('WLP_home_idx', 0);
+var homeIdx = Number(localStorage.WLP_home_idx || 0);
+
+function switchToNextHomeIdx() {
+  homeIdx = homeIdx < 4 ? homeIdx + 1 : 0;
+  localStorage.WLP_home_idx = homeIdx;
+  renderHomeDots();
+}
+
+function renderHomeDots() {
+  var html = '';
+  for (var i = 0; i <= 4; i++)
+    html += (i == homeIdx) ? '<b class="active"></b>' : '<b></b>';
+  byId('home-dots').innerHTML = html;
+}
+
+if (settings.background_image_provider == 'home') {
+  byId('home-button').classList.add('selected');
+} 
+else if (settings.background_image.indexOf('img/backgrounds') != -1) {
+  var $img = $("#image-slider-content img").filter(function () { // jQuery not js
+    var src = this.dataset.src || this.src;
+    return settings.background_image.indexOf(src.replace('thumbs/', '')) != -1;
+  });
+  $img[0] && $img[0].parentNode.classList.add('selected');
+}
+
+renderHomeDots();
+
+// allows space to change background face
+window.addEventListener('focus', function () {
+  $('#home-button')[0].focus();
+});
+
+//
+// Helpers
+//
+
+function paddedNumber(n) {
+  return (n < 10 ? '0' : '') + n;
+}
+
+function mstc(a,b){
+  return(a+'').replace(/\{\{([^{}]+)}}/g,
+    function(c,d){
+      return d in(b||{})?(/^f/.test(typeof b[d])?b[d]():b[d]):c
+    })
+}
+
+var hoverMask = document.createElement('div');
+hoverMask.style.cssText = 'position: fixed;top:0; bottom:0;'+
+                          'width:100%; height:100%; z-index:100;';
+hoverMask.onmousedown = function (e) {
+  enableHover();
+  setTimeout(disableHover, 1000)
+}
+
+var isHoverEnabled = true;
+function disableHover(el) {
+  if (isHoverEnabled)
+    document.body.appendChild(hoverMask);
+  isHoverEnabled = false;
+}
+
+function enableHover(el) {
+  if (!isHoverEnabled)
+    hoverMask.remove();
+  isHoverEnabled = true;
+}
+
+//
+// Debug
+//
+
+/*
+
+var scrolls = [];
+var imageSlider = $("#image-slider")[0];
+$("#image-slider").on('scroll', function () {
+  scrolls.push(imageSlider.scrollLeft);
+});
+
+setInterval(function () {
+  if (!scrolls.length) return;
+  var deltas = [];
+  for (var i = 1; i < scrolls.length; i++)
+    deltas.push(scrolls[i] - scrolls[i-1]);
+  console.log(deltas.join('\n'));
+  scrolls = [];
+}, 1000);
+
+*/

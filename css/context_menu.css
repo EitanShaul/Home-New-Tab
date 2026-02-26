@@ -1,0 +1,94 @@
+/* (c) copyright 2019 Balázs Galambosi (support@homenewtab.com) */
+
+.context-menu {
+	width: 180px;
+	position: absolute;
+	right: 200px;
+	top: 50px;
+	z-index: 1000;
+	padding:4px 0;
+
+	background: rgba(255, 255, 255, .96);
+  border-radius: 5px; 
+	box-shadow: 0 10px 20px rgba(0, 0, 0, .25);
+
+	/*border: 1px solid rgba(0,0,0,.1); /*aaa*/
+	border-radius: 9px;
+	box-shadow: 0 3px 15px rgba(0, 0, 0, .35);
+
+	background: #fff;
+	-webkit-font-smoothing:auto;
+
+	border:	.5px solid rgba(0,0,0,.20);
+  border-top-color: rgba(0,0,0,.20);
+  border-bottom-color: rgba(0,0,0,.30);
+
+  background-clip: padding-box;
+	overflow: hidden;
+}
+
+/* outside blended border */
+/*
+.context-menu:after {
+	content: '';
+	position: absolute;
+	top: -1px;
+	left: -1px;
+	bottom: -1px;
+	right: -1px;
+	border-radius: inherit;
+	border:	1px solid rgba(0,0,0,.3);
+}
+*/
+
+.context-menu li {
+	display: block;
+	color: #000;
+	text-decoration:none;
+	padding:6px 15px;
+	cursor: default;
+	font-size:13px;
+}
+
+.context-app-name {
+	font-weight:bold;
+}
+
+.context-menu li:hover {
+	/*color: #fff;
+	background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0, #1b78d9), color-stop(1, #319be7) );
+	border-top:1px solid #148ddf;
+	border-bottom:1px solid #095bba;
+	text-shadow:0 0 1px #999;
+	*/
+	background: #e8eaed;
+}
+
+.context-menu li.disabled {
+	color:#aaa;
+}
+
+.context-menu li.disabled:hover {
+	color:#aaa;
+	background-image:none;
+	border-top:1px solid transparent;
+	border-bottom:1px solid transparent;
+	text-shadow:none;
+}
+
+
+.context-menu hr {
+	background: #d9d9d9;
+	/*background: -webkit-linear-gradient(left, rgba(0, 0, 0, .10), rgba(0, 0, 0, .02) 96%);*/
+	/*background: -webkit-linear-gradient(left, rgba(0, 0, 0, .15), rgba(0, 0, 0, .05) 96%);*/
+	background: #ebebeb;
+	border: 0;
+	height: 1px;
+	margin: 4.5px 0; /*8px 0*/
+}
+
+.context-menu-mouse-blocker {
+	z-index: 999;
+}
+
+/*https://jsfiddle.net/8ovhqt6w/28/ */

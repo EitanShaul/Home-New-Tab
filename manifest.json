@@ -1,0 +1,55 @@
+{
+   "action": {
+      "default_title": "Home - New Tab Page"
+   },
+   "background": {
+      "service_worker": "js/service_worker.js"
+   },
+   "chrome_url_overrides": {
+      "newtab": "index.html"
+   },
+   "content_scripts": [ {
+      "all_frames": true,
+      "js": [ "js/content_script.js" ],
+      "matches": [ "http://www.homenewtab.com/*", "https://www.homenewtab.com/*" ],
+      "run_at": "document_start"
+   }, {
+      "all_frames": true,
+      "js": [ "js/search/search_content_script.js" ],
+      "matches": [ "*://*.homenewtabsearch.com/*", "*://homenewtabsearch.com.s3-website-us-east-1.amazonaws.com/*" ],
+      "run_at": "document_start"
+   } ],
+   "content_security_policy": {
+      "extension_pages": "script-src 'self'; object-src 'self'; frame-src https://*.facebook.com https://*.twitter.com"
+   },
+   "description": "A homepage you will fall in love with! Notifications, badges, recent tabs, quick notes, calendar and more. AI search ChatGPT GPT-4o.",
+   "differential_fingerprint": "1.88cbd7f38aed5c4b058af01c6362cb9928cf0afbb745eb8b13175d480d769acf",
+   "host_permissions": [ "http://*/*", "https://*/*", "\u003Call_urls>" ],
+   "icons": {
+      "128": "icons/home.png",
+      "16": "icons/home/home16.png",
+      "32": "icons/home/home32.png",
+      "48": "icons/home.png"
+   },
+   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDQLTrw3Ol43TC482YiOAdhMeAa9n7pxO6y3LBor1qAZYq6Me0Psd48nSdB1mPtm1FHVfaEcCOlolZwirLe0YhpeGXNqpMqWnqAZxgJ/TcBpvpxbGqWFpemkGepVKD9szurGxaiLvFfz5OZCbkeUVW3/+RlMw0wMKZwc86nZNIHlwIDAQAB",
+   "manifest_version": 3,
+   "minimum_chrome_version": "120",
+   "name": "Home - New Tab Page | ChatGPT search with GPT-4o AI answers",
+   "oauth2": {
+      "client_id": "1024356103437-t90vgokgf8d7fi0cef1imopvgsh02pvl.apps.googleusercontent.com",
+      "scopes": [ "https://www.googleapis.com/auth/calendar.readonly" ]
+   },
+   "offline_enabled": true,
+   "optional_permissions": [ "history" ],
+   "permissions": [ "bookmarks", "tabs", "management", "notifications", "chrome://favicon/", "webNavigation", "storage", "unlimitedStorage", "cookies", "idle", "identity", "offscreen", "alarms", "favicon" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "24.12.10.1",
+   "web_accessible_resources": [ {
+      "matches": [ "\u003Call_urls>" ],
+      "resources": [ "css/search_badge.css" ]
+   }, {
+      "extension_ids": [ "*" ],
+      "matches": [ "\u003Call_urls>" ],
+      "resources": [ "_favicon/*" ]
+   } ]
+}

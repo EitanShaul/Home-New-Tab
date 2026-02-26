@@ -1,0 +1,33 @@
+
+html.notifications-hidden.qnotes-hidden:not(.focus) 
+#date {
+    display:none;
+
+    /*
+    replaced by #date-reveal
+
+    font-size: 22px;
+    line-height: 1em !important;
+    display: none;
+
+    font-size: 17px;
+    position: absolute;
+    left: 0;
+    top: 56%;
+    transition: top .35s ease, opacity .35s ease;
+    transition-delay: .05s;
+    opacity: 0;
+    display:block;
+    padding-left: 6px;
+    color: #ddd;
+    */
+}
+
+/*
+html.notifications-hidden.qnotes-hidden:not(.focus) 
+#time:hover ~ #date {
+    top: 76%;
+    opacity: 1;
+    transition-delay: .25s;
+}
+*/

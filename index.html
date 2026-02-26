@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html class=".notifications-hidden .qnotes-hidden" style="/*background:rgb(117, 119, 121)*/">
+<head>
+<meta charset=utf-8 />
+
+<!-- dont touch chrome.* APIs util DOM loaded -->
+<script src="js/new.js"></script>
+
+<link rel="stylesheet" type="text/css" media="screen,projection" href="/css/style.css" />
+
+<link rel="preload" href="/css/fonts/HelveticaNeueLTStd-Th-fix.otf" as="font" 
+      crossorigin="anonymous" />
+<link rel="preload" href="/css/fonts/icomoon.ttf?v=1.0.2" as="font" 
+      crossorigin="anonymous" />
+<link rel="preload" href="/img/vignette.png" as="image" />
+<link rel="preload" href="/img/effects/center_vignette.png" as="image" />
+<link rel="preload" href="/img/effects/top_vignette.png" as="image" />
+
+<script src="/js/default.js"></script>
+<script src="/js/style.js"></script>
+
+<title>Home</title>
+</head>
+<body>
+<!--
+<img src="filesystem:chrome-extension://ehhkfhegcenpfoanmgfpfhnmdmflkbgk/persistent/background.jpg" style="display:none"/>
+-->
+<div id="page" class=".fit">
+
+  <div id="page-bg-base" class="fit"></div>
+  <div id="page-bg" class="fit"></div>
+  <div id="focus-vignette"></div>
+  <div id="page-gradient" class=".fit">
+
+  <div id="apps-wrapper" class=".centerX">
+    <div id="apps-slider">
+      <div id="apps-pages-list" class="win-spacing"></div>
+      <div id="apps-dots"><span class="active-dot"></span></div>
+      <!--<div id="apps-slider-bg" class="fit" ></div>-->
+     </div>
+  </div>
+
+  <div id="search-box" class="mac" style="display:none">
+    <form id="search-form" name="search-form" class=".show-search-logo"> 
+      <img src="/icons/home.png" id="search-logo" data-id="home" width="26">
+      <!-- Search or enter website name | Search web or type URL -->
+      <input type="text" id="search-input" name="p" placeholder="Search web, type URL or ask AI"
+             autocomplete="off" autocorrect="off" spellcheck="false" autofocus escfocus />
+      <div id="search-input-bg"></div>
+      <div id="bar-buttons">
+        <div id="microphone-button" title="Search by voice"><div id="microphone-img"></div></div>
+        <div id="search-button" class="button blue">Search</div>
+        <button id="search-button2"><span class="magnifier"></span></button>
+      </div>
+      <div id="legal-buttons" class="helpful-message clickable" style="display:none; right: -202px;background: transparent; border: 0;color: rgba(0,0,0,.1);">
+        <a href="https://www.homenewtab.com/privacy/">Privacy</a> | <a href="https://www.homenewtab.com/terms/">Terms</a> | <a href="https://www.homenewtab.com/about-hntp/">About</a>
+      </div>
+    </form>
+    <div id="search-results-wrap" style="display:none">
+      <iframe id="search-results" src="about:blank"></iframe>
+    </div>
+  </div>
+
+  <div id="widgets-left">
+    <div id="boxes-row" class="widget-row">
+      <div id="boxes">
+        <div class="box .floating frostable win-font" id="notifications-box">
+          <div class="box-h1 bold">Notifications</div>
+          <button id="clear-notifications" class="clear-button">clear</button>
+          <button id="notifications-menu-button" class="menu-button pin-button" title="Pin/Unpin"><i class="fas fa-thumbtack"></i><span>●●●</span></button>
+          <div class="scrollable" id="notifications"></div>
+        </div>
+        <div class="box .floating frostable win-font" id="qnote">
+          <div class="box-h1 bold" contenteditable="true" spellcheck="false" id="qnote-title">Quick Notes</div>
+          <button id="qnote-menu-button" class="menu-button pin-button" title="Pin/Unpin"><i class="fas fa-thumbtack"></i><span>●●●</span></button>
+          <div id="qnote-editor"></div>
+          <div class="box-text scrollable win-font" contenteditable="true" spellcheck="false" id="qnote-text">
+            <div><b>Click to edit</b> <i>&amp;</i> <b>add your own notes</b><i>!</i></div>
+            <div><b>1)</b> Something to do</div>
+            <div><b>2)</b> Somewhere to go</div>
+            <div><b>3)</b> Something to remember</div>
+            <div><b>4)</b> Someone to meet</div>
+            <div><b>5)</b> And so on <b>...</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="datetime-row" class="widget-row">
+      <div id="datetime" class="no-event">
+        <div id="time" title="Click to change format">
+          <span id="time-text"></span>
+          <div id="date-reveal"></div>
+        </div>
+        <div id="upcoming-event" class="trunc" title="Click to see event" target="_blank">
+          
+        </div>
+        <div class="clear"></div>
+        <div id="date"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="focus-today" style=".display:none">
+    <label id="focus-today-label" 
+           for="focus-today-input">What is your main focus for today?</label>
+    <div id="focus-today-title">TODAY</div>
+    <span id="focus-today-checkbox">
+      <span class="border">
+        <span class="circle"></span><i class="fas fa-check ifa"></i>
+      </span>
+    </span>
+    <input id="focus-today-input" autocomplete="off" value=""> <!-- Do something awesome -->
+    <span id="focus-today-span"></span>
+    <div class="delete">✕</div>
+    <div id="focus-today-help">Press enter to set your focus</div>
+  </div>
+
+  <a id="add-app-button">+</a>
+  <a id="recently-closed-button">recently closed</a>
+  <div id="recently-closed-box" class="frostable" style="padding-top:42px">
+    <button id="recently-closed-clear-button" class="clear-button">clear</button>
+    <div id="recently-closed-list"></div>
+  </div>
+
+<div id="left-toolbar">
+  <div id="left-toolbar-gradient" class="fit"></div>
+
+  <div id="left-toolbar-top">
+    <a id="info-button" class="tbar-btn" href="/pages/questions.html" target="_blank" data-title="Help">
+      <i class="fas fa-question ifa"></i>
+    </a>
+    <a id="review-button" class="tbar-btn" data-title="Review" href="https://chrome.google.com/webstore/detail/ehhkfhegcenpfoanmgfpfhnmdmflkbgk/reviews" target="_blank"></a>
+    <a id="settings-button" class="tbar-btn" href="#" target="_blank" data-title="Settings"></a>
+    <a id="switches-button" class="tbar-btn" style="display:none"></a> 
+  </div>
+
+
+  <div id="left-toolbar-bottom">
+    <a id="apps-button" class="tbar-btn" data-title="Apps" style=".display:none">
+      <svg class="icon-svg icon-apps" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M3 3h6v6H3V3zm10 0h6v6h-6V3zm10 0h6v6h-6V3zM3 13h6v6H3v-6zm10 0h6v6h-6v-6zm10 0h6v6h-6v-6zM3 23h6v6H3v-6zm10 0h6v6h-6v-6zm10 0h6v6h-6v-6z"></path></svg>
+    </a>
+    <a id="bookmarks-button" class="tbar-btn btn-40" data-title="Bookmarks"></a>
+    <a id="notifications-button" class="tbar-btn btn-40" data-title="Notifications"> <!-- data-title="Notifications" style="display:none" -->
+      <div id="notifications-button-img"></div>
+      <div class="indicator" id="indicator-global"></div>
+    </a> 
+    <a id="qnotes-button" class="tbar-btn btn-40" data-title="Quick Notes"></a>  <!-- data-title="Quick Notes" style="display:none" -->
+    <div id="weather" class="weather old-font">
+      <div class="metric-stat">
+        <span class="icon"></span><span class="degree"></span>
+      </div>
+    </div>  <!-- ◉◎○● --> 
+    <a id="focus-button" class="tbar-btn" data-title="Focus"><div id="focus-button-fish-eye"></div></a>  
+    <a id="background-button" class="tbar-btn" data-title="Beautiful Backgrounds"></a>
+  </div> <!-- left-toolbar-bottom -->
+
+  <div id="left-toolbar-guide"></div>
+</div> 
+
+<div id="weather-forecast" class="weather old-font" 
+     style="display:none; opacity: 0;">
+     <div id="weather-forecast-help" style="display:none;">
+      We only have an <i>estimate</i> of your location. 
+      For accurate weather reporting 
+      install <a href="https://chrome.google.com/webstore/detail/home-accurate-weather/foomlpdinaehlbhlncohiekomfdnicbj" target="_blank">Home - Accurate Weather</a>
+     </div>
+     <div id="weather-forecast-header" title="Click to change city">
+        <div id="weather-forecast-city" ></div>
+        <div id="weather-unit-option" class="degree-before" title="Change °C/°F">c</div>
+        <a class="location-icon disabled" href="#"></a>
+     </div>
+     <div id="weather-forecast-cond"></div>
+     <div id="weather-forecast-data"></div>
+     <div id="weather-autocomplete" class="fit"></div>
+</div>
+
+<ul class="context-menu" style="display:none"></ul>
+
+
+</div>
+
+</div> <!-- end of page -->
+
+<!--
+<div id="bookmarks-bar"></div>
+<div class="overlay fit"></div>
+<div class="open-app"></div>
+<div class="open-app-overlay fit"></div>
+<div id="screenshot-overlay" class="fit"></div>
+-->
+
+<div id="mouse-move-overlay" class="fit"></div>
+
+<script src="/js/main.js"></script>
+<script src="/js/draggable.js"></script>
+
+<!--<script src="/js/search/suggest.js"></script>
+<script src="/js/weather/weather.js" async></script>--> 
+
+</body>  
+</html>

@@ -1,0 +1,60 @@
+
+#microphone-button {
+   padding: 0 3px;
+   display: inline-block;
+   position: relative;
+   right:2px;
+   border-radius: 3px;
+   z-index: 10;
+   cursor: pointer;
+   display:none;
+}
+#microphone-button:hover {
+ background: #f1f1f1;
+}
+#microphone-button:hover>#microphone-img {
+  filter: none;
+   -webkit-filter: none;
+   opacity: 0.8;
+}
+
+
+#microphone-img {
+
+background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE2LjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPg0KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCINCgkgd2lkdGg9IjQ4NC41cHgiIGhlaWdodD0iNDg0LjVweCIgdmlld0JveD0iMCAwIDQ4NC41IDQ4NC41IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA0ODQuNSA0ODQuNTsiIHhtbDpzcGFjZT0icHJlc2VydmUiDQoJPg0KPGc+DQoJPGcgaWQ9ImtleWJvYXJkLXZvaWNlIj4NCgkJPHBhdGggZmlsbD0icmVkIiBkPSJNMjQyLjI1LDMwNmM0My4zNSwwLDc2LjUtMzMuMTUsNzYuNS03Ni41di0xNTNjMC00My4zNS0zMy4xNS03Ni41LTc2LjUtNzYuNWMtNDMuMzUsMC03Ni41LDMzLjE1LTc2LjUsNzYuNXYxNTMNCgkJCUMxNjUuNzUsMjcyLjg1LDE5OC45LDMwNiwyNDIuMjUsMzA2eiBNMzc3LjQsMjI5LjVjMCw3Ni41LTYzLjc1LDEzMC4wNS0xMzUuMTUsMTMwLjA1Yy03MS40LDAtMTM1LjE1LTUzLjU1LTEzNS4xNS0xMzAuMDVINjMuNzUNCgkJCWMwLDg2LjcsNjguODUsMTU4LjEsMTUzLDE3MC44NXY4NC4xNWg1MXYtODQuMTVjODQuMTUtMTIuNzUsMTUzLTg0LjE0OSwxNTMtMTcwLjg1SDM3Ny40TDM3Ny40LDIyOS41eiIvPg0KCTwvZz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjwvc3ZnPg0K);
+    background-size: 85%;
+    opacity: .6;
+    width: 20px;
+    height: 28px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    filter: grayscale(1);
+    -webkit-filter: grayscale(1);
+    margin:0 auto;
+
+    /*opacity: .9; for colored image
+    background-size: 100%; */
+}
+
+
+
+.search-fullscreen #microphone-button {
+   top: 2px;
+   padding: 0 3px;
+   right: 3px;
+}
+.search-fullscreen #microphone-img {
+    width: 20px;
+   height: 30px;
+}
+
+
+.search-fullscreen #microphone-button {
+   top: 2px;
+   padding: 0 3px;
+   right: 3px;
+}
+.search-fullscreen #microphone-img {
+  width: 20px;
+   height: 30px;
+}

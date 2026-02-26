@@ -1,0 +1,35 @@
+
+/*
+ Bookmarks
+*/
+
+#bookmarks-bar {
+  background:#f1f1f1;
+}
+
+.bookmark img {
+  top: 3px;
+  position: relative;
+  margin-right: 7px;
+}
+
+.bookmark {
+  display:block;
+  text-decoration: none;
+  color: #000;
+  padding: 4px 6px 7px;
+  font-size: 13px;
+  margin:5px 0 0 4px;
+  border:1px solid transparent;
+}
+
+.bookmark:hover {
+  background: #ddd;
+  border-radius: 3px;
+  border-color: #cfcfcf;
+}
+
+.bookmark:active {
+  background: #ccc;
+  border-color: #999;
+}

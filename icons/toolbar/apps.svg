@@ -1,0 +1,13 @@
+<svg class="icon-svg icon-apps" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><defs>
+<style>.links .toggle-icon svg {
+    height: 18px;
+    width: 18px;
+    margin: 0;
+    fill: #fff!important;
+    vertical-align: -4%;
+}
+.links .icon-svg {
+    fill: #fff;
+}</style>
+</defs>
+<path d="M3 3h6v6H3V3zm10 0h6v6h-6V3zm10 0h6v6h-6V3zM3 13h6v6H3v-6zm10 0h6v6h-6v-6zm10 0h6v6h-6v-6zM3 23h6v6H3v-6zm10 0h6v6h-6v-6zm10 0h6v6h-6v-6z"></path></svg>

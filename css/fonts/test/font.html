@@ -1,0 +1,94 @@
+
+<style>
+body {
+    font-weight:200;
+    font-family: 'Helvetica Neue';
+}
+.f12 { font-size: 12px; }
+.f14 { font-size: 14px; }
+.f16 { font-size: 16px; }
+.f20 { font-size: 20px; }
+.f24 { font-size: 24px; }
+.f40 { font-size: 40px; }
+.f60 { font-size: 60px; }
+.f120 { font-size: 120px; }
+
+.custom {
+    font-family: 'HelveticaNeueLTCom-Thin';
+    background: rgba(200, 10, 0, .5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: .5;
+    /*width: 100%;
+    height: 100%;*/
+}
+
+/* thin looks different then all others
+   and we sometimes use it with a heavier font weight */
+@font-face { 
+    font-family: 'HelveticaNeueLTCom-Thin';
+    src: url('HelveticaNeueLTStd-Th-3.otf') format('opentype');
+    font-style:normal;
+    font-weight:200;
+}
+
+.rel {position: relative;}
+
+div {background: rgba(0, 255, 0, .5); /*margin: 2px;padding-left:2px;*/ }
+
+</style>
+
+<div class="rel">
+    <div class="f12">The quick brown fox jumped over the lazy dog</div>
+    <div class="f12 custom">The quick brown fox jumped over the lazy dog</div>
+</div>
+<div class="rel">
+    <div class="f14">The quick brown fox jumped over the lazy dog</div>
+    <div class="f14 custom">The quick brown fox jumped over the lazy dog</div>
+</div>
+
+<div class="rel">
+<div class="f16">The quick brown fox jumped over the lazy dog</div>
+<div class="f16 custom">The quick brown fox jumped over the lazy dog</div>
+</div>
+
+<div class="rel">
+<div class="f20">The quick brown fox jumped over the lazy dog</div>
+<div class="f20 custom">The quick brown fox jumped over the lazy dog</div>
+</div>
+
+<div class="rel">
+<div class="f24">The quick brown fox jumped over the lazy dog</div>
+<div class="f24 custom">The quick brown fox jumped over the lazy dog</div>
+</div>
+
+<div class="rel">
+<div class="f40">The quick brown fox jumped over the lazy dog</div>
+<div class="f40 custom">The quick brown fox jumped over the lazy dog</div>
+</div>
+
+
+<div class="rel">
+<div class="f60">The quick brown fox jumped over</div>
+<div class="f60 custom">The quick brown fox jumped over</div>
+</div>
+
+
+<div class="rel">
+<div class="f120">Q</div>
+<div class="f120 custom">Q</div>
+</div>
+
+<div class="rel">
+<div class="f40">12:23</div>
+<div class="f40 custom">12:23</div>
+</div>
+<div class="rel">
+<div class="f40">21:55</div>
+<div class="f40 custom">21:55</div>
+</div>
+<div class="rel">
+<div class="f40">22:13</div>
+<div class="f40 custom">22:13</div>
+</div>

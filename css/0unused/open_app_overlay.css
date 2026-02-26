@@ -1,0 +1,55 @@
+
+.overlay {
+  -webkit-transform:translateZ(0);
+  -webkit-box-align: center;
+  -webkit-box-pack: center;
+  -webkit-transition: 0.5s opacity;
+  background: -webkit-radial-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) 35%, rgba(0, 0, 0, 0.8));
+  display: -webkit-box;
+  padding: 20px;
+  padding-bottom: 130px;
+  z-index: 10;  
+  opacity: 0;
+  display: none;
+}
+
+.open-app {
+  background:#fff;
+  top:50%;
+  bottom:50%;
+  right:50%;
+  left:50%;
+  position: absolute; /*fixed*/
+  z-index:20;
+  opacity:0;
+  display:block;
+  /*
+  -webkit-transition: top .3s ease-out;
+  -webkit-transition-property: top, right, bottom, left;
+  */
+}
+
+.open-app-overlay {
+  background:#000;
+  opacity:0;
+  display:none;
+  z-index:10;
+  /*-webkit-transition: 1s opacity;*/
+}
+
+
+
+#screenshot-overlay {
+  /*
+  -webkit-transition-property: left, top, opacity;
+  -webkit-transition-duration: 1s, 1s, 1s;
+  -webkit-transition-timing-function: ease-out, ease-out, ease-out;
+  -webkit-transition-delay: 0, 0, 0;
+  */
+  display:none; 
+  position:absolute;
+  z-index:1000; 
+  background-position:center center;
+  background-repeat:no-repeat;
+  overflow:hidden;
+}

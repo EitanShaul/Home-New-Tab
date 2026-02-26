@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=utf-8 />
+  <title>New App</title>
+  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1"/>
+
+  <link type="text/css" media="screen" rel="stylesheet" href="bookmarks.css">
+  <link rel="stylesheet" href="themes/jstree.default.css" />
+
+  <style>
+  * { margin:0; padding:0; }
+
+  body {
+    /*background: rgba(237, 237, 237, 0.95);*/
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                 "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+                 "Droid Sans", "Helvetica Neue", sans-serif;
+    overflow-x:hidden;
+    padding: 0 0 0 0;
+      /*-webkit-font-smoothing: antialiased; */  
+  }
+
+  input, button, select, textarea {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
+  }
+
+  #scrolling-root {
+    position: absolute;
+    top: 61px;
+    left: 0;
+    bottom: 0;
+    right: 2px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
+  .jstree-container-ul {
+    padding-left: 20px;
+  }
+
+  h1 { 
+      font-size: 24px; 
+      padding: 15px 20px;
+      box-sizing: border-box;
+      top: 0;
+      left: 0;
+      right: 0;
+
+      color: #404040;
+      position: fixed;
+      z-index: 1;
+      background:  rgba(210, 210, 210, .95);
+      /*      
+      text-align: center;
+      font-size:30px;
+      color: #777;
+      font-weight: normal;
+      */
+
+      text-shadow: 0 1px 1px rgba(255, 255, 255, .7);
+      transition: box-shadow .2s ease;
+      border-bottom: 3px solid transparent;
+
+      background: rgba(210, 210, 210, 1);
+      border-bottom: 2px solid #bbb;
+
+      background: rgba(222, 222, 222, 1);
+
+      background: rgba(237, 237, 237, 1);
+      border-bottom-width: 1px;
+
+      background: rgb(235, 237, 239);
+
+      background: rgb(100, 110, 120, .15);
+      border-bottom: 1px solid rgba(0,0,0,.1);
+      text-shadow: none;
+    }
+
+    h1.scrolling {
+      /*
+      box-shadow: 0 5px 5px rgba(0,0,0,.1),  0 20px 25px rgb(230, 230, 230);
+      */
+     box-shadow: 0 5px 5px rgba(0,0,0,.05), 0 10px 15px rgba(230, 230, 230, .8);
+     box-shadow: 0 5px 10px rgba(0,0,0,.15);
+      /*box-shadow: 0 20px 25px rgb(230, 230, 230);
+      border-bottom: 2px solid #bbb;*/
+    }
+
+
+
+  h1 > span {
+    -webkit-mask: url(/icons/toolbar/bookmark-4_2_filled.svg) no-repeat center;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    margin-bottom: -3px;
+    margin-right: 7px;
+    opacity: 0.85;
+    position: absolute;
+    right: 5px;
+    background-color: #6b6b6b;
+    display: none;
+  }
+
+
+  .jstree-default-small .jstree-anchor {
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /*width: 400px;*/
+  }
+
+  .jstree-default-small .jstree-ocl {
+    background-image: none;
+    width: 0 !important;
+    height: 0 !important;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    border-left: 8px solid #555;
+    position: relative;
+    top: 7px;
+    left: -5px;
+    margin-left: 10px;
+    border-left-color: #aaa;
+  }
+  .jstree-default-small .jstree-open >.jstree-ocl {
+    transform: rotate(90deg);
+    border-left-color: #555;
+  }
+  .jstree-leaf > .jstree-ocl {
+    border-color: transparent;
+  }
+  .jstree-default-small .jstree-themeicon {
+    margin-right: 4px;
+  }
+  .jstree-default-small .jstree-anchor,
+  .jstree-default-small .jstree-animated,
+  .jstree-default-small .jstree-wholerow {
+    transition: background-color 0.05s, box-shadow 0.05s;
+  }
+  .jstree-default .jstree-wholerow-hovered {
+    background: #ddd;
+    background: rgb(225, 227, 229);
+    background: rgba(0, 0, 0, .1);
+  }
+
+  .jstree-anchor.jstree-clicked {
+    font-weight: bold;
+    
+  }
+
+  .jstree-default .jstree-wholerow-clicked {
+    background: hsl(210, 3%, 93%);
+    background: rgba(0, 0, 0, .05);
+  }
+
+  .jstree-default-small .jstree-node:active .jstree-wholerow-hovered {
+    /*background: #67cff7 !important; /* #4081EA */
+    transition: none;
+  }
+  /*.jstree-default-small .jstree-anchor:active {
+    color: #fff !important;
+  }*/
+
+
+
+ #bookmarks-title-text {
+  /*transition: opacity .2s ease; TODO: removed until Chrome fixes their shit*/
+ }
+
+#search-form {
+  position: absolute;
+  left: 20px;
+  top: 14px;
+}
+
+#search-term {
+  width: 290px; /* with bookmark top right icon */
+  height: 30px;
+  font-size: 20px;
+  border: 0;
+  border-bottom: 3px solid #ccc;
+  background: transparent;
+  border-radius: 0;
+  outline: none;
+  transition: background .2s ease, border .2s ease; 
+  /* , opacity .2s ease; TODO: removed until Chrome fixes their shit */
+  opacity: 0;
+  z-index: 1;
+
+  width: 330px;
+  box-sizing: border-box;
+
+  border: 0;
+  background: rgba(255,255,255,.5);
+  border-radius: 10px;
+  padding: 0 10px;
+
+  background: rgba(0,0,0,.05);
+}
+
+h1:hover #search-term,
+.search-active #search-term  {
+  opacity: 1;
+}
+
+h1:hover #bookmarks-title-text,
+.search-active #bookmarks-title-text {
+  opacity: 0;
+}
+
+#search-term:focus, .search-active #search-term {
+  padding: 0 10px;
+
+  /*border-bottom: 3px solid #4D90FE;
+  background: #ddd;*/
+  border: 0;
+
+  background: rgba(255,255,255,.5);
+  border-radius: 10px 10px 0 0;
+  border-radius: 10px;
+
+  background: rgba(0,0,0,.07);
+}
+#search-term::placeholder {
+  /* transition: color .2s ease; TODO: removed until Chrome fixes their shit */
+  color: transparent;
+}
+#search-term:focus::placeholder,
+h1:hover #search-term::placeholder {
+  color: #999;
+  color: rgba(0,0,0,.35);
+  font-weight: 400;
+}
+
+#search-button {
+  background-color: #999;
+  background-color: rgba(0,0,0,.375);
+  -webkit-mask: url(./img/search.svg) no-repeat center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  cursor: pointer;
+  transition: background-color .2s ease;
+  text-indent: -9999px;
+  overflow: hidden;
+  top: -6px;
+  position: relative;
+}
+
+#search-button:hover {
+  background-color: #555;
+  background-color: rgba(0,0,0,.66);
+}
+
+.no-result {
+  margin: 40px;
+  text-align: center;
+  font-size: 24px;
+  color: #999;
+}
+
+
+/*
+
+/**
+ * Scrollbar
+ */
+::-webkit-scrollbar {
+  width: 9px;
+}
+
+::-webkit-scrollbar-thumb {
+  /*background: rgba(0, 0, 0, 0.6);
+  box-shadow: inset 0 0 1px rgba(255,255,255,1);
+  background-color: white;*/
+  /*box-shadow: inset 0 0 1px rgba(0,0,0,0.5);
+  background-color: rgba(255,255,255,.5);*/
+  box-shadow: inset 0 0 1px rgba(0,0,0,0.5);
+  background-color: #aaa;
+  background-color: rgba(0,0,0,.25);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-track {
+  /*
+  background-color: rgba(100, 100, 100, .8);
+  border-left: 2px solid rgba(255,255,255,.05);
+  */
+  /*background-color: rgba(0, 0, 0, .4);*/
+
+}
+
+/*
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 9px;
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-transition: background-color 1s ease;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.35);
+  -webkit-box-shadow: 0 0 1px rgba(255,255,255,0.5);
+
+  background-color: #999; 
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, .09);
+  background-color: rgba(255, 255, 255, .7);
+}
+*/
+/*
+.hide_scrollbar ::-webkit-scrollbar-thumb {
+   background-color: rgba(0, 0, 0, 0); 
+}
+*/
+
+  </style>
+
+</head>
+<body>  
+
+<h1 id="page-title">
+  <span></span>
+  <div id="bookmarks-title-text"">Bookmarks</div>
+  <form id="search-form">
+    <input type="text" id="search-term" placeholder="Search bookmarks" 
+           autocomplete="off" />
+    <button id="search-button">Search</button>
+  </form>
+</h1>
+
+<div id="scrolling-root">
+  <div id="container"></div>
+</div>
+
+<div id="bookmarks-bar"></div>
+
+<div id="page"></div>
+
+<script src="/js/lib/jquery.min.js"></script>
+<script src="jstree.min.js"></script>
+<script src="bookmarks_panel.js"></script>
+
+</body>
+</html>

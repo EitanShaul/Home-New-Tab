@@ -1,0 +1,4 @@
+
+convert it to manifest v3, use code above but only for inspiration
+
+Do not change anything that is not related to v3 conversion (leave comments, debug logging, dead code, etc untouched)

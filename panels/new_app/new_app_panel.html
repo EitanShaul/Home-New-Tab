@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=utf-8 />
+  <title>New App</title>
+  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1"/>
+  <link type="text/css" media="screen" rel="stylesheet" href="jquery.cropbox.css">
+  <link type="text/css" media="screen" rel="stylesheet" href="store/store.css">
+
+  <style type="text/css">
+  * { margin:0; padding:0; }
+
+  	html {   	
+
+  	/*	
+  		background-color: rgba(237, 237, 237, 0.93);
+  		zoom:1.25;
+  		width: 540px;
+  		box-sizing: border-box;
+  		border-left: 10px solid rgba(0,0,0,.05);
+  		*/
+  		zoom:1.25;
+
+ 		}
+
+    @media only screen and (max-width: 500px) {
+      html { zoom:1; }
+    }
+
+  	html {
+  	}
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                   "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+                   "Droid Sans", "Helvetica Neue", sans-serif;
+      font-size: 16px;
+      height: 100%;
+      padding: 15px 20px 20px 10px;
+      user-select:none;
+      -webkit-user-select: none;
+      cursor:default;
+      -webkit-font-smoothing: antialiased;   
+    }
+
+    input, button, select, textarea {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                      "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+                      "Droid Sans", "Helvetica Neue", sans-serif;
+    }
+
+    .inp-w { 
+      display:inline-block; 
+      margin: 3px 0 5px 0; 
+      border-bottom: 2px solid transparent;
+      border-radius: 2px;
+      transition: border-color .4s ease-out; 
+     }
+    .inp-w:focus-within { 
+      border-color: #4D90FE; 
+      transition: border-color .1s ease-in; 
+    }
+
+    #custom-content {
+      background: #fff;
+      box-shadow: 1px 1px 2px #ddd;
+      box-shadow: rgba(60, 64, 67, 0.10) 0px 1px 2px 0px, rgba(60, 64, 67, 0.07) 0px 1px 3px 1px;
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    #custom input, #custom button {
+      /*margin:5px 0;*/
+      outline: none;
+    	font-size   : 14px;
+    	line-height: 1;
+    	padding: 4px 8px;
+    	width: 100%;
+    	box-sizing: border-box;
+      border-radius: 2px;
+      font-weight: 500;
+    }
+
+    #custom input {
+      padding: 2px 6px;
+    }
+    button { cursor:pointer }
+    #custom input::-webkit-file-upload-button {
+      padding: 4px 8px;
+      font-size: 13px;
+      cursor:pointer; 
+    }
+    #custom input[type=file] {
+    	padding-left:0; 
+    	cursor:pointer; 
+    }
+    .invalid {
+    	border:1px solid red !important;
+      outline:1px solid red !important;
+    }
+
+    #custom input[type=text], #custom input[type=url] {
+    	box-sizing: border-box;
+      border: 0;
+
+      background: #f1f1f1;
+      transition: background .2s ease;
+      color: #202124;
+    	/*border: 1px solid #B6B6B6;*/
+    }
+
+    #custom input[type=text]:focus, #custom input[type=url]:focus {
+      background: #eee;
+    }
+
+    #custom input[type=text]::-webkit-input-placeholder,
+    #custom input[type=url]::-webkit-input-placeholder  {
+    	line-height: 1.2;
+
+      color: #bbb;
+      color: rgba(95, 99, 104,0.75); /*chrome settings + opa*/
+      color: #80868b; /*chrome search bar*/
+      font-weight: 400;
+    }
+
+    #custom input[type=range]:focus,
+    #custom input[type=range]:active {
+    	outline: 0;
+    }
+    /* Webkit */
+    #custom input[type=range] {
+    	-webkit-appearance: none;
+    	width: 260px;
+    	border-radius: 8px;
+    	height: 7px;
+    	border: 1px solid #bdc3c7;
+    	background-color: #fff; 
+    	position: relative;
+    	transition:all .15s ease-in-out;
+
+      background-color: #eee; 
+      border: 1px solid #eee;
+    }
+    #custom input[type=range]:active {
+    	background-color: #fbfbfb; 
+    	border: 1px solid #bbb;
+
+      background-color: #d0d0d0; 
+      border: 1px solid #d0d0d0;
+    }
+
+    #custom input[type='range']::-webkit-slider-runnable-track {
+    	padding: 5px 0;
+    	position: relative;
+    }
+
+    #custom input[type='range']::-webkit-slider-thumb {
+    	-webkit-appearance: none;
+    	background-color: #ecf0f1;
+    	border: 1px solid #bdc3c7;
+    	width: 20px;
+    	height: 20px;
+    	border-radius: 10px;
+    	cursor: pointer;
+    	position: relative;
+
+    	background-color: #4D90FE;
+  	  background-image: -webkit-linear-gradient(top,#4d90fe,#4787ed);
+  	  background-image: linear-gradient(top,#4d90fe,#4787ed);
+  	  border: 1px solid #3079ED;
+    }
+    #custom input[type='range']::-webkit-slider-thumb:hover {
+    	/*background-color: #ddd;
+    	border: 1px solid #bbb;*/
+
+    	border: 1px solid #2F5BB7;
+    	background-color: #357AE8;
+    	background-image: -webkit-linear-gradient(top,#4d90fe,#357ae8);
+    	background-image: linear-gradient(top,#4d90fe,#357ae8);
+    	box-shadow: 0 1px 1px rgba(0,0,0,.1);
+    }
+    #custom input[type='range']::-webkit-slider-thumb:active {
+    	/*background-color: #bbb;
+    	border: 1px solid #999;*/
+
+    	border: 1px solid #183B82;
+    	background-color: #2964C3;
+    	background-image:none;
+    	box-shadow: 0 1px 1px rgba(0,0,0,.1);
+    }
+
+    #custom input[type='range']:disabled {
+    	opacity: 0.5;
+    }
+
+    .input-row-text {
+    	margin: 0 0 2px 0;
+    }
+
+    .slider-wrapper {
+    	user-select:none;
+    	-webkit-user-select: none;
+    	color: #606060;
+    	font-weight: 500;
+    	/*text-align: right;*/
+    }
+    .slider-wrapper b {
+    	color: #4A8CF6;
+    }
+
+    #imgWrapper {
+    	width:128px; 
+    	height:128px;
+    	position: relative;
+    	overflow: hidden;
+    	box-sizing: border-box;
+
+    	background-color: rgba(0, 0, 0, .05);
+    	border-radius: 5px;
+    	border: 1px solid rgba(255,255,255,.2);
+    	/*background-color: rgba(0,0,0,.2);*/
+    	/*box-shadow: 3px 3px 5px rgba(0,0,0,.05);*/
+    }
+
+    .loading {
+    	background:url(/img/loading.gif) no-repeat center center;
+    }
+
+    #new-app-title {
+    	font-size: 30px;
+    	margin-bottom: 15px;
+    	text-align: center;
+    	color: #777;
+    	text-shadow: 0 1px 1px rgba(255, 255, 255, .7);
+    }
+
+
+   #menu {
+      list-style: none;
+      font-size: 30px;
+      margin: 0px 0 30px;
+      position: relative;
+      text-align: center;
+      color: #999;
+      user-select:none;
+      text-shadow: none;
+      box-shadow: 1px 1px 1px rgba(0,0,0,.1);
+      box-shadow: rgba(60, 64, 67, 0.10) 0px 1px 2px 0px, rgba(60, 64, 67, 0.07) 0px 1px 3px 1px;
+
+      background: #ddd;
+      margin: -5px auto 25px;
+
+      /*border-radius: 25px;*/
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    #menu li {
+      display: inline-block;
+      color: #888;
+      cursor: pointer;
+      border-radius: 8px;
+      padding: 4px 10px;
+      transition: background .1s, color .1s;
+      width: 50%;
+      /*width: 33.33%;*/
+      box-sizing: border-box;
+      font-size: 28px;
+      border-radius: 0;
+      border-right: 1px solid #ccc;
+    }
+    #menu li:hover {
+      color: #555;
+      color: #4D90FE;
+      background: rgba(255,255,255,.5);
+
+      background: #ccc;
+      color: #666;
+    }
+    /*#menu li:active {
+      background: #aaa;
+      color: #555;
+    }*/
+    #menu li.active {
+      cursor: default;
+      background: rgba(255,255,255,.8);
+      color: #555;
+      box-shadow: 1px 1px 1px rgba(0,0,0,.1);
+      text-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+   }
+
+
+   #menu #menu-item-chrome { display: none; }
+
+   html.show-chrome #menu #menu-item-chrome { display: inline-block; }
+   html.show-chrome #menu li { width:33.33%; }
+
+    /* ====== media ====== */
+    .media {margin:10px 0;}
+    .media, .bd {overflow:hidden; _overflow:visible; zoom:1;}
+    .media .img {float:left; margin-right: 10px;}
+    .media .img img {display:block;}
+    .media .imgExt {float:right; margin-left: 10px;}
+
+    #icon-progress {
+    	  height: 7px;
+    	  width: 0%;
+    	  background-color: rgb(74, 139, 244);
+    	  z-index: 1000;
+    	  position: absolute;
+    	  bottom: 0;
+    	  border-top: 1px solid rgba(255,255,255,.4);
+    	  border-right: 1px solid rgba(255,255,255,.4);
+    	  display: none;
+    }
+
+
+    .cropFrame {
+    	display: block;
+    	left: 50%;
+    	top: 50%;
+    	transform: translate(-50%, -50%);
+    }
+    .cropControls { display:none }
+
+    .button:hover {
+      background-color: #F8F8F8;
+      background-image: -webkit-linear-gradient(top,#f8f8f8,#f1f1f1);
+      background-image: linear-gradient(top,#f8f8f8,#f1f1f1);
+      border: 1px solid #C6C6C6;
+      color: #333;
+      -webkit-box-shadow: 0px 1px 1px rgba(0,0,0,.1);
+      box-shadow: 0px 1px 1px rgba(0,0,0,.1);
+    }
+
+    .button {
+      display: inline-block;
+      background-color: #f5f5f5;
+      background-image: -webkit-linear-gradient(top,#f5f5f5,#f1f1f1);
+      background-image: linear-gradient(top,#f5f5f5,#f1f1f1);
+      color: #444;
+      border: 1px solid #dcdcdc;
+      -webkit-border-radius: 2px;
+      border-radius: 2px;
+      cursor: default;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      height: 26px;
+      line-height: 26px;
+      min-width: 54px;
+      padding: 0 8px;
+      text-decoration: none;
+      cursor:pointer;
+    }
+
+    .button.blue:hover {
+      border: 1px solid #2F5BB7;
+      background-color: #357AE8;
+      background-image: -webkit-linear-gradient(top,#4d90fe,#357ae8);
+      background-image: linear-gradient(top,#4d90fe,#357ae8);
+      -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.1);
+      box-shadow: 0 1px 1px rgba(0,0,0,.1);
+    }
+
+    .button.blue {
+      background-color: #4D90FE;
+      background-image: -webkit-linear-gradient(top,#4d90fe,#4787ed);
+      background-image: linear-gradient(top,#4d90fe,#4787ed);
+      border: 1px solid #3079ED;
+      color: white;
+    }
+
+    .button.blue:active {
+    	border: 1px solid #183B82;
+    	background-color: #2964C3;
+    	background-image: none;
+    }
+
+    #user-app-submit {
+    	display: block;
+    	margin: 40px auto 0;
+    	padding: 5px 50px;
+    	text-align: center;
+    	font-size: 16px;
+    }
+
+    #loadingSite {
+    	  width: 16px;
+    	  height: 16px;
+    	  left: -25px;
+    	  position: relative;
+    	  top: 3px;
+    }
+
+    #removeImage { display:none }
+
+    .thanks {
+      margin-top: 47px;
+      text-align: center;
+    }
+
+    .thanks a {
+    	display:inline-block;
+    	padding:0 2px 0 4px;
+    	-webkit-transition: background .25s ease-in-out;
+    	border-radius:4px;
+
+      color: rgb(72, 136, 239);
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px solid rgb(196, 196, 196);
+    }
+    .thanks a:hover {
+    	  background: #fff;
+    }
+
+    #titleInPlaceOfIcon {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      margin-top: -1em;
+      text-align: center;
+      width: 100%;
+      font-weight: 500;
+    }
+
+    .opt-edit-app {display:none}
+    body.page-edit-app .opt-edit-app {display:block}
+    body.page-edit-app .opt-new-app  {display:none}
+
+  #plusone {
+    width: 90px; 
+    height: 20px;
+  }
+
+  #social-buttons {
+    text-align: center;
+    margin: 20px auto 0;
+  }
+  #fb-like {
+    position: relative;
+    top: 6px;
+    margin-right: 10px;
+    left: 0;
+  }
+
+  .popular {
+      color: #666;
+      background: #d0d0d0;
+      border-radius: 4px;
+      padding: 10px;
+      margin: 15px 40px 0 10px;
+  }
+
+  #all-thanks {
+    display: none;
+  }
+
+  .link-btn {   
+     display: inline-block; cursor: pointer;
+     color: #4D90FE; text-decoration: none;  border-bottom: 2px solid transparent;
+  }
+  .link-btn:hover {  border-color: #ccc; }
+  .center-msg {
+    margin: 10px 10px 15px;
+    font-size: 16px;
+    text-align: center;
+  }
+  #chrome { margin-left: 10px; }
+  #chrome .link-btn { margin: 0 10px; }
+
+  </style>
+
+</head>
+<body>  
+
+<div id="new-app-title">
+  <ul id="menu" class="opt-new-app"> <!-- weird line break below is intentional! -->
+    <li id="menu-item-store" class="active">Home</li
+    ><li id="menu-item-custom">Custom</li
+    ><li id="menu-item-chrome">Chrome</li>
+  </ul>
+  <!--<span class="opt-new-app">New App</span>-->
+  <span class="opt-edit-app">Edit App</span>
+</div>
+
+<!--
+<iframe id="gallery" src="./store/store.html" border="0" style="
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    border:0;
+">
+</iframe>
+-->
+
+<div id="store" >
+  <form id="search-form"> <!--  Enter site name | Search app name -->
+  <input id="search-term" placeholder="Enter site name to add" 
+         autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+  <button id="search-submit" class="store-button"><span class="magnifier"></span></button>
+  <div id="custom-message" >
+  <span id="popular-message" class="subhead">POPULAR</span>
+  <a href="#" id="custom-link" style="display:none;">Add Custom Website</a>
+  </div>
+  <div id="results"></div>
+  </form>
+
+  <div id="TEMPLATE-app" style="display:none">
+  <div class="app ${type}" data-name="${name}" data-link="${fullLink}" data-icon="${icon}"  
+       data-id="${id}">
+    <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" 
+         data-src="${icon}">
+    <div class="name ellipsis" title="${name}">${name}</div>
+    <div class="link ellipsis" title="${fullLink}">${link}</div>
+    <div class="store-button add-button" title="Customize and Add to Home"><b>+</b> Add</div>
+  </div>
+  </div>
+</div>
+
+
+
+
+
+<div id="custom" style="display:none">
+  <div id="custom-content">
+
+  <div class="inp-w">
+  <input type="url" id="url" style="width:330px" autofocus
+         placeholder="Enter Site URL (e.g. yelp.com)"  
+         autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+  </div>
+
+  <div class="inp-w">
+  <input type="text" id="name" style="width:330px" 
+         placeholder="Enter Site Name (keep it short and sweet)"  
+         autocomplete="off" autocorrect="off" spellcheck="false"  />
+  </div>
+  <img src="/img/loading.gif" id="loadingSite" style="display:none"> 
+
+
+   <br> 
+   	<div class="media">
+   	 <span class="img" id="imgWrapper">
+   	 <img class="cropimage" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" cropwidth="96" cropheight="96"/>
+   	 <div id="icon-progress"></div>
+   	 </span>
+    <div class="bd">
+      <div class="input-row-text">Icon Source:  </div>
+      <div class="inp-w">
+        <input type="url" id="imageURL" style="width: 194px;" placeholder="Image by direct URL" />
+      </div>
+    	<input type="file" id="imageFile" /><br>
+    	<button id="removeImage">Remove Current Image</button><br>
+    </div>
+
+    </div>
+
+    <div class="slider-wrapper" style="margin-bottom:15px;">
+    	<input id="zoom" type="range" min="0.01" max="2" step="0.01" value="0.01" />  
+    	<b>[</b> Zoom <b>]</b>
+    </div>
+    
+    <div class="slider-wrapper" style="display:none">
+    	<input id="roundedCorner" type="range" min="0" max="64" step="1" value="21.5" /> 
+    	<b>(</b> Corners <b>)</b>
+    </div>
+  
+
+    <!--
+    <input type="number"  min="1" max="100" step="1" id="zoomText" value="100" />
+  	-->
+  	<div id="user-app-submit" class="button blue">
+      <span class="opt-new-app">Add App</span>
+      <span class="opt-edit-app">Save App</span>
+    </div>
+
+  </div> <!-- #custom-content -->
+
+    
+  <div id="all-thanks">
+    <div class="thanks opt-new-app">If you <i style="font-weight: 500;">love</i> 
+    adding New Apps with this feature, 
+    <br> don't hesitate to let me know in a<a href="https://chrome.google.com/webstore/detail/ehhkfhegcenpfoanmgfpfhnmdmflkbgk/reviews" target="_blank">review</a>. Cheers! :)
+    </div>
+
+    <div class="thanks opt-edit-app">You've been waiting for an Edit button for a long time? Now you know I read every single review. :) 
+    If you <i style="font-weight: 500;">love</i> 
+    the new app editing feature, 
+    say thanks in a <a href="https://chrome.google.com/webstore/detail/ehhkfhegcenpfoanmgfpfhnmdmflkbgk/reviews" target="_blank">review</a>. Cheers! 
+    <span style="color:rgb(243, 144, 1);">★★★★★</span>
+    </div>
+
+    <div id="social-buttons">
+
+    <iframe id="fb-like" src="about:blank" data-src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fhomenewtab%2F&width=63&layout=box_count&action=like&size=large&show_faces=false&share=false&height=65&appId=267128753314780" width="80" height="65" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+
+    <iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" class="twitter-share-button twitter-share-button-rendered twitter-tweet-button" title="Twitter Tweet Button" src="about:blank" data-src="https://platform.twitter.com/widgets/tweet_button.32d6c6b4cb1ed84df04e7f9705a90c47.en.html#dnt=false&amp;id=twitter-widget-0&amp;lang=en&amp;original_referer=chrome-extension%3A%2F%2Fehhkfhegcenpfoanmgfpfhnmdmflkbgk&amp;size=l&amp;text=Check%20out%20this%20awesome%20app%3A%20Home%20New%20Tab%20for%20Chrome.%20Shows%20my%20favorite%20sites%2C%20daily%20fresh%20wallpapers%2C%20notes%20and%20more.%20Get%20it%20for%20free%20%23homenewtab&amp;time=1535792040134&amp;type=share&amp;url=https%3A%2F%2Fchrome.google.com%2Fwebstore%2Fdetail%2Fhome-new-tab-page%2Fehhkfhegcenpfoanmgfpfhnmdmflkbgk" data-url="https://chrome.google.com/webstore/detail/home-new-tab-page/ehhkfhegcenpfoanmgfpfhnmdmflkbgk" style="position: static;visibility: visible;width: 76px;height: 28px;position: relative; top: -13px;"></iframe>
+    </div>
+ </div>
+
+</div> <!-- #custom -->
+
+<div id="chrome" style="display:none">
+  <div class="center-msg" style="color:#bbb;display:none"> <!--  To New Tab -->
+    <div id="chrome-add-all" class="link-btn" style="">Add All</div> | 
+    <div id="chrome-add-all" class="link-btn" style="">Hide All</div>
+  </div>
+  <div id="chrome-hidden"></div>
+  <div class="subhead">ALREADY ADDED</div>
+  <div id="chrome-visible"></div>
+</div>
+
+	<div id="new-app-debug" style="display:none">
+	<br> <br> <br>
+	  <div class="download">
+	    <a href="#" download="crop.png">Download</a>
+	  </div>
+  </div>
+
+
+  <script src="/js/default.js"></script>
+  <script src="store/store.js"></script>
+  <script src="store/fuse.min.js" async></script>
+
+  <!-- <script src="hammer.js"></script>-->
+  <!--
+  <script src="store/fuse.min.js"></script>
+
+  <script src="/js/lib/jquery.min.js"></script>
+  <script src="jquery.mousewheel.js"></script>
+  <script src="jquery.cropbox.js"></script>
+  <script src="cropinit.js"></script>
+  <script src="new_app_panel.js"></script>
+  <script src="/js/lib/filesystem.js"></script>
+  -->
+  <!--<script src="../js/cursor.js"></script>-->
+
+<!--
+<script src="/js/connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9&appId=267128753314780" id="facebook-jssdk" async></script>
+-->
+
+
+
+
+<!--
+<a style="visibility: hidden" id="tweet-button" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large" data-text="Check out this awesome app: Home New Tab for Chrome. Shows my favorite sites, daily fresh wallpapers, notes and more. Get it for free #homenewtab" data-url="https://chrome.google.com/webstore/detail/home-new-tab-page/ehhkfhegcenpfoanmgfpfhnmdmflkbgk"  data-show-count="false">Tweet</a>
+<script async src="/js/platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+-->
+
+
+
+<!--
+<div id="fb-root"></div>
+<div class="fb-like" data-href="https://www.facebook.com/homenewtab/" data-layout="box_count" data-action="like" data-size="large" data-show-faces="false" data-share="false"></div>
+-->
+
+
+
+</body>
+</html>

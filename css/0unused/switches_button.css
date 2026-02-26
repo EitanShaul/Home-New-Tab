@@ -1,0 +1,21 @@
+
+/*
+#switches-button {
+    background: url(../icons/toolbar/switches.png) no-repeat center center;
+    background-size: 34px 34px;
+    position: absolute;
+    width: 40px;
+    height: 40px;
+      transition: background-image .15s, transform .15s;
+    z-index: 10;
+        left: 12px; 
+        margin-top:170px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+#switches-button:hover {
+    background-image: url(../icons/toolbar/switches_hover.png);
+    transform: scale(1.25) translateZ(0);
+}
+*/

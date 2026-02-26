@@ -1,0 +1,3 @@
+Em Square Height: 1024
+Baseline height: 12
+whitespace Width: 50

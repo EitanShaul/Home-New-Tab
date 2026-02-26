@@ -1,0 +1,42 @@
+
+/*
+@font-face{
+    font-family:"Font Awesome 5 Free";
+    font-style:normal;
+    font-weight:400;
+    src:url(fonts/fa-regular-400.woff2) format("woff2");
+}
+
+@font-face{
+    font-family:"Font Awesome 5 Free";
+    font-style:normal;
+    font-weight:900;
+    src:url(fonts/fa-solid-900.woff2) format("woff2");
+}
+*/
+
+
+@font-face {
+  font-family: 'HelveticaNeueLTCom';
+  src: url('fonts/HelveticaNeueLTStd-Lt.otf') format('opentype');
+  font-style:normal;
+  font-weight:400;
+}
+@font-face {
+  font-family: 'HelveticaNeueLTCom';
+  src: url('fonts/HelveticaNeueLTStd-Th.otf') format('opentype');
+  font-style:normal;
+  font-weight:200;
+}
+@font-face {
+  font-family: 'HelveticaNeueLTCom';
+  src: url('fonts/HelveticaNeueLTStd-Bd.otf') format('opentype');
+  font-style:normal;
+  font-weight:800;
+}
+@font-face {
+  font-family: 'HelveticaNeueLTCom';
+  src: url('fonts/HelveticaNeueLTStd-Md.otf') format('opentype');
+  font-style:normal;
+  font-weight:600;
+}

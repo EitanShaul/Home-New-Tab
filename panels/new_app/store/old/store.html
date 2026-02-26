@@ -1,0 +1,139 @@
+<style>
+* {margin:0; padding:0;}
+	body { margin:30px 10px; max-width: 400px; }
+	img { width: 96px; height:96px; background:#eee; border-radius: 8px; }
+
+	.app {
+	    display: inline-block;
+	    width: 96px;
+	    position: relative;
+	    padding: 20px 30px 10px;
+	    background: #fff;
+	    margin: 10px;
+	    border-radius: 8px;
+	    box-shadow: 1px 1px 2px #ddd;
+	}
+
+	.add-button {
+		margin: 15px 0 0;
+	}
+
+	.button { 
+		background: #fff;
+	  /*border: 2px solid rgba(0,0,0,.05);*/
+	  background:  rgba(0,0,0,.05);
+    color: #4D90FE;
+    border-radius: 8px;
+    
+    padding: 4px 0;
+    text-align: center;     	
+    cursor:pointer;
+    font-size: 16px;
+
+    -webkit-transition:opacity .15s, background .15s, color .15s, border-color .15s, -webkit-transform .15s;
+    -webkit-user-select:none;
+
+	}
+
+    .button:hover {
+    	background: rgba(0,0,0,.15);
+    	background: #4D90FE;
+    	color: white;
+    }
+
+    .button:active {
+    	background: #4D90FE;
+    	background: #357AE8;;
+    	color: white;
+    	-webkit-transform:scale(0.8);
+    }
+
+	.name {font-size:14px; margin-top: 10px; width: 110px;/*width: 140px;*/}
+
+	.link { color:#888; width: 110; font-size:14px; }
+
+	#search-form { margin: 0 0 0 10px; } 
+	#results { margin: 10px 0 0 0;  }
+
+	button#search-submit {     
+		height: 27px;
+    line-height: 27px;
+    padding: 0px 18px;
+    border: 0;
+    background: #4D90FE;
+    color: #fff;
+    position: relative;
+    top: -2px;
+    outline:none;
+    box-shadow: 1px 1px 2px #ccc;
+    border-radius: 0 8px 8px 0;
+  }
+
+	button#search-submit:hover {
+		background-color: #357AE8;
+	} 
+    
+	input#search-term {    
+		font-size: 20px;
+    width: 246;
+    height: 27px;
+    line-height: 27px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    padding: 0 4px;  
+    box-shadow: 1px 1px 2px #ddd;
+    border-radius: 8px 0 0 8px;
+    margin-left: 10px;
+
+	}
+	input#search-term:focus {
+		border: 2px solid #4D90FE;
+		outline: none;
+	}
+	input::placeholder {
+		color:#ccc;
+	}
+
+	.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+	}
+
+	#custom-message {   
+		margin: 20px 10px 10px;
+    font-size: 16px;
+    text-align: center;
+  }
+
+	#custom-link {   
+		 color: #4D90FE; text-decoration: none;
+  }
+ #custom-link:hover {  border-bottom: 2px solid #ccc; }
+
+ 
+</style>
+
+<form id="search-form">
+<input id="search-term" autocomplete="off" placeholder="Enter website name">
+<button id="search-submit" class="button">Search</button>
+<div id="custom-message" style="display:none;">
+<a href="#" id="custom-link">Add custom website</a>
+</div>
+<div id="results"></div>
+</form>
+
+<div id="TEMPLATE-app" style="display:none">
+<div class="app">
+	<img src="${img}">
+	<div class="name ellipsis" title="${name}">${name}</div>
+	<div class="link ellipsis" title="${link}">${link}</div>
+	<div class="button add-button" title="Customize and Add to Home"><b>+</b> Add</div>
+</div>
+</div>
+
+<script src="fuse.min.js"></script>
+<script src="store.js">
+
+
+</script>

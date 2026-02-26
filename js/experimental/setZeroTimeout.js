@@ -1,0 +1,17 @@
+(function() {
+var timeouts = [];
+var messageName = "zero-timeout-message";
+function setZeroTimeout(fn) {
+    timeouts.push(fn);
+    window.postMessage(messageName, "*");
+}
+function handleMessage(event) {
+    if (!(event.source == window && event.data == messageName)) return;
+    event.stopPropagation();
+    if (!timeouts.length) return;
+    var fn = timeouts.shift();
+    fn();
+}
+window.addEventListener("message", handleMessage, true);
+window.setZeroTimeout = setZeroTimeout;
+})();

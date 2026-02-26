@@ -1,0 +1,13 @@
+
+#src: http://www.tothenew.com/blog/fix-vertical-position-issue-of-custom-ios-fonts/
+
+# dump
+ftxdumperfuser -t hhea -A d HelveticaNeueLTStd-Th-3.otf
+
+# edit
+ftxdumperfuser -t hhea -A f HelveticaNeueLTStd-Th-3.otf
+
+
+
+if you font sits too low you have to decrease ascender and increase descender
+if you font sits too high you have to increase ascender and decrease descender

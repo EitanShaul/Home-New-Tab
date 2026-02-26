@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+
+<link rel="stylesheet" type="text/css" media="screen,projection" href="css/style.css" />
+<style></style>
+<script src="js/default.js"></script>
+<script src="js/style.js"></script>
+
+<title>Options: Home New Tab page</title>
+
+<style>
+#page { overflow:auto; }
+#page-bg-base {position: fixed;}
+h1 {  line-height:60px; border-radius: 8px 8px 0 0; text-align: center;cursor:default;
+	background: -webkit-gradient(
+		linear,center top,center bottom,
+		from(rgba(0, 0, 0, 0.038)),
+		color-stop(50%,rgba(0, 0, 0, 0.058)),
+		to(rgba(0, 0, 0, 0.088)));
+
+}
+h1 span {   font-weight: 500 }
+h2 {  margin:30px 0 20px; cursor:default; font-size:26px; }
+label { font-size:16px; font-weight: bold; display: block; margin:10px 0;}
+select { font-weight: bold; width:60px;  margin-left:15px;  }
+select, input { font-size:16px;}
+input { margin-right: 8px; }
+
+.options { background:rgba(235, 235, 235, 0.89); border-radius: 8px; left:20%; right:20%;  position:absolute; box-shadow: 0 10px 20px rgba(0, 0, 0, .25); padding-bottom:80px; margin:20px auto;
+ box-sizing:border-box; color: rgba(0,0,0,.8); z-index:10; /*-webkit-transform:translate3d(0, 1000px, 0); -webkit-transition:-webkit-transform 1s; */ }
+.options-content { padding:30px 40px 0; }
+.option-name { width:120px; display:inline-block;}
+.options-wrapper { width: 100%; height: 100%; position: absolute; z-index: 100; }
+
+button { font-size:14px; padding:2px 0; width:93px; display:block; clear:both; }
+
+#options-note, #options-please { position: absolute; bottom:17px; width:100%; text-align: center; font-weight: bold;  left: 0; }
+#options-note {  font-size:16px; }
+#options-please { font-size:24px; bottom:40px;  }
+#options-please i { font-weight: 500; }
+#background-option-right { vertical-align: top; }
+#background-option-left { float:left; margin-right:20px; }
+#background-option img { border-radius:3px; margin-bottom:6px; }
+a { /*color:#c31000;*/  color:#007CE4;  }
+#background-option-right select { width:93px; margin:0; }
+input[type="checkbox"] { -webkit-transform: scale(1.5); zoom: 1.01; top: 2px; position: relative; }
+
+@media only screen and (max-height: 801px) {
+	h1 { display:none; }
+	#options-please { font-size:18px; }
+	#options-note { font-size:13px; }
+}
+#page { scroll-behavior: smooth; }
+#page-gradient, #page-bg  { position: fixed; z-index: 1;}
+#search-survey-wrapper label { font-weight: normal; }
+
+/*
+#options-overlay { z-index:5; background:#000; opacity:.2; width:100%; height: 100%; position: absolute;
+background-image: -webkit-gradient( linear,center top,center bottom, from(rgba(0, 0, 0, 0.01)), color-stop(75%,rgba(0, 0, 0, 0.001)), to(rgba(0, 0, 0, 0.33))), -webkit-gradient( linear,left center,right center, from(rgba(0, 0, 0, 0.25)), color-stop(25%,rgba(0, 0, 0, 0.001)), color-stop(75%,rgba(0, 0, 0, 0.001)), to(rgba(0, 0, 0, 0.25))); }
+*/
+
+  #social-buttons {
+    width: 147px;
+    position: absolute;
+    right: 30px;
+  }
+  #fb-like {
+    position: relative;
+    top: 6px;
+    margin-bottom: 10px;
+  }
+  #tweet-button {
+  	 width: 76px; height: 28px;
+  }
+
+  #backup button {
+  	display: inline-block;
+    width: auto;
+    padding: 4px 30px;
+    font-size: 18px;
+    margin-right: 20px;
+  }
+
+/**
+ * Scrollbar
+ */
+::-webkit-scrollbar {
+	width: 14px;
+}
+
+::-webkit-scrollbar-thumb {
+	background: rgba(0, 0, 0, 0.6); /*.25*/
+  box-shadow: inset 0 0 1px rgba(255,255,255,1);
+  background-color: white;
+}
+
+::-webkit-scrollbar-track {
+	background-color: rgba(100, 100, 100, .8);
+	border-left: 2px solid rgba(255,255,255,.05);
+}
+
+#close {
+	position: fixed;
+	right: 28px;
+	top: 12px;
+	z-index: 101;
+	font-size: 30px;
+	color: #fff;
+	cursor:pointer;
+}
+
+#backup #backup-auto {
+	margin: 15px 0 0;
+	padding: 10px 10px;
+	display: block;
+	border: 1px solid #afafaf;
+	background: rgb(240, 240, 240);
+	width: 383px;
+	box-sizing: border-box;
+  outline:none;
+  display: none;
+}
+#backup #backup-auto:active {
+	background: rgb(180, 180, 180);
+}
+
+#backup #backup-auto .title {
+	font-size: 18px;
+}
+
+#backup #backup-auto .details {
+	font-size: 11px;
+	color: #666;
+	display: block;
+}
+
+
+</style>
+</head>
+<body>
+
+<div id="close">✕</div>
+
+<div id="page" class="fit">
+
+  <div id="page-bg-base" class="fit"></div>
+  <div id="page-bg" class="fit"></div>
+  <div id="page-gradient" class="fit"></div>
+
+	<div class="options-wrapper">
+	<div class="options">
+		<h1>Home New Tab Page &ndash; <span>Options</span></h1>
+		<div class="options-content">
+
+			<div id="social-buttons">
+			  Don't be greedy ;)<br>Help spread the word!<br><br>
+				<!-- width 80px -->
+				<iframe id="fb-like" src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fhomenewtab%2F&width=63&layout=box_count&action=like&size=large&show_faces=false&share=false&height=65&appId=267128753314780" width="130" height="65" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+
+				<a style="visibility: hidden" id="tweet-button" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large" data-text="Check out this awesome app: Home New Tab for Chrome. Shows my favorite sites, daily fresh wallpapers, notes and more. Get it for free #homenewtab" data-url="https://chrome.google.com/webstore/detail/home-new-tab-page/ehhkfhegcenpfoanmgfpfhnmdmflkbgk"  data-show-count="false">Tweet</a>
+
+			</div>
+
+				<label><div class="option-name">Time format</div> <select id="time_format"><option value="12">12h</option><option value="24">24h</option></select></label>
+				<label><div class="option-name">Temperature</div> <select id="temperature"><option value="c">°C</option><option value="f">°F</option></select></label>
+				<label><div class="option-name">Fetch interval</div>
+					<select id="fetch_interval"><option value="1">1m</option><option value="5">5m</option><option value="15">15m</option><option value="30">30m</option></select>
+				</label>
+
+				<h2>Background</h2>
+				<div id="background-option">
+					<div id="background-option-left">
+						<img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" id="background-preview" width="90px" height="90px" />
+						<button id="default-background">Default</button>
+					</div>
+					<div id="background-option-right">
+						<input type="file" id="background_image" accept="image/*" /> <br/><br/>		
+						<select id="background_style">
+							<option value="tile">Tile</option>
+							<option value="fill">Fill</option>
+							<option value="stretch">Stretch</option>
+						</select>
+						<label><input type="checkbox" id="background_gradient" /> Shadow effect</label>
+						<label><input type="checkbox" id="background_fadein" /> Fade-in animation</label>
+					</div>
+				</div>
+
+				<h2>Backup</h2>
+				<div id="backup">
+						<button id="backup-export">Export to File</button>
+						<button id="backup-import">Import from File</button>
+						<input type="file" id="backup-import-file" style="display:none" />
+						<button id="backup-auto">
+							<span class="title">Restore from Automatic Backup</span>
+							<span class="details">
+								<span id="backup-auto-time"></span>
+								<span id="backup-auto-size"></span>
+							</span>
+						</button>
+				</div>
+
+				<h2>Notifications</h2>
+				<div id="notification-options"></div>
+
+				<label><input type="checkbox" id="search_bar" /> Search Bar</label>
+
+				<div id="search-survey-wrapper" style="display:none; font-size:16px; margin-top: 20px;">
+					Please tell us what you didn't like about this feature:
+					<label><input type="radio" name="search-survey" value="broken"><b>Didn't work</b> (blank search results)</label>
+					<label><input type="radio" name="search-survey" value="slow">Worked but it was <b>slow</b> to search</label>
+					<label><input type="radio" name="search-survey" value="small">Worked but I don't like search <b>results in a small box</b></label>
+					<label><input type="radio" name="search-survey" value="the-bar">Worked but <b>search bar took up too much space</b> on my homepage</label>
+				</div>
+
+				<div id="options-please">If you <i>love</i> this extension, please consider writing a <a href="https://chrome.google.com/webstore/detail/ehhkfhegcenpfoanmgfpfhnmdmflkbgk/reviews" target="_blank">review</a>. Thanks!</div>
+				<div id="options-note">(all changes are saved automatically)</div>
+				<!-- (some options may require browser restart) -->
+			</div>
+	</div> <!-- end of options -->
+	</div>  
+
+</div>  <!-- end of page -->
+
+<div id="options-overlay"></div>
+
+<script src="js/lib/filesystem.js"></script>
+<script src="js/options.js"></script>
+<script src="js/backup.js"></script>
+<script src="js/pages/pages_common.js"></script>
+
+</body>
+</html>
