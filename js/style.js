@@ -145,7 +145,7 @@ function finalOpacity(filter) {
 }
 
 function is_default_or_image_service(url) {
-  url = url.replace('chrome-extension://'+ window.APP_ID, '');
+  url = url.replace(chrome.runtime.getURL(''), '');
   var provider = settings.background_image_provider || 'manual';
   return url.indexOf('/img/backgrounds/') != -1 || provider != 'manual';
 }

@@ -3,7 +3,7 @@
 
 var stored = localStorage;
 window.APP_ID  = stored.APP_ID || (stored.APP_ID = chrome.runtime.id);
-window.APP_URL = 'chrome-extension://' + window.APP_ID + '/';
+window.APP_URL = chrome.runtime.getURL('/');
 
 //if (window.DEV) 
   document.documentElement.classList.add('show-chrome');
