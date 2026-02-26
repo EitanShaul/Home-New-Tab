@@ -57,7 +57,7 @@ window.SECS    = SECONDS;
   window.SEARCH_ORIGIN = 'https://www.homenewtabsearch.com';
   //window.SEARCH_ORIGIN = 'https://homenewtabsearch.com.s3-website-us-east-1.amazonaws.com';///
   window.SEARCH_URL = window.SEARCH_ORIGIN + "/?instant";
-  window.APP_URL    = 'chrome-extension://' + window.APP_ID + '/';
+  window.APP_URL    = chrome.runtime.getURL('/');
 
 
   if (localStorage.cf_test_review == 'true') {

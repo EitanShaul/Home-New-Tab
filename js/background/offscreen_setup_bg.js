@@ -126,19 +126,37 @@ async function createLocalStoragePromise() {
   });
 }
 
-// it's first a promise, then a proxy value. both can be awaited
-// after awaited it can be used sync (becuse guaranteed to be replaced by val)
-globalThis.localStorage = createLocalStoragePromise();
-globalThis.stored = globalThis.localStorage;
-globalThis.localStorage.then(proxy => {
-  globalThis.localStorage = proxy;
-  globalThis.stored = proxy;
-  console.log('local storage proxy ready', proxy)
-});
+// Firefox background pages have native localStorage access, so the offscreen
+// proxy is only needed in Chrome service workers where localStorage is absent.
+var _hasNativeLocalStorage = (function () {
+  try { return typeof localStorage !== 'undefined' && localStorage !== null &&
+               typeof localStorage.getItem === 'function'; }
+  catch (e) { return false; }
+})();
 
-// need to refresh local cache
-function on_localStorage_change(e) {
-  globalThis.localStorage._updateCache(e.key, e.newValue);
+if (_hasNativeLocalStorage) {
+  // Firefox (or any context with direct localStorage): resolve immediately
+  globalThis.stored = Promise.resolve(localStorage);
+  globalThis.stored.then(function () {
+    globalThis.stored = localStorage;
+  });
+  function on_localStorage_change() { /* native storage, no cache to refresh */ }
+} else {
+  // Chrome service worker: use offscreen document proxy
+  // it's first a promise, then a proxy value. both can be awaited
+  // after awaited it can be used sync (becuse guaranteed to be replaced by val)
+  globalThis.localStorage = createLocalStoragePromise();
+  globalThis.stored = globalThis.localStorage;
+  globalThis.localStorage.then(proxy => {
+    globalThis.localStorage = proxy;
+    globalThis.stored = proxy;
+    console.log('local storage proxy ready', proxy)
+  });
+
+  // need to refresh local cache
+  function on_localStorage_change(e) {
+    globalThis.localStorage._updateCache(e.key, e.newValue);
+  }
 }
 
 // testing

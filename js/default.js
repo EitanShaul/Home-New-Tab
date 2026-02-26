@@ -40,7 +40,7 @@ window.DEV = !manifest.update_url; //(window.APP_ID != 'ehhkfhegcenpfoanmgfpfhnm
 window.SEARCH_ORIGIN = 'https://www.homenewtabsearch.com';
 //window.SEARCH_ORIGIN = 'https://homenewtabsearch.com.s3-website-us-east-1.amazonaws.com';///
 window.SEARCH_URL = window.SEARCH_ORIGIN + "/?instant";
-window.APP_URL    = 'chrome-extension://' + window.APP_ID + '/';
+window.APP_URL    = chrome.runtime.getURL('/');
 
 var ITEM_SEPARATOR = "\\c";
 var FIELD_SEPARATOR = "\\a";
